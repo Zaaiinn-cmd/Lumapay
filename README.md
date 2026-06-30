@@ -157,10 +157,16 @@ lumapay/
 ## Roadmap
 
 ### Current Status
+
+
 🟢 Planning & Design
+
 🟢 Stage 1 UI Development
+
 🟢 Landing Page
+
 🟢 Dashboard
+
 
 ### Upcoming
 
