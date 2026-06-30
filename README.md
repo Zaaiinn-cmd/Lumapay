@@ -158,12 +158,12 @@ lumapay/
 
 ### Current Status
 🟢 Planning & Design
+🟢 Stage 1 UI Development
+🟢 Landing Page
+🟢 Dashboard
 
 ### Upcoming
 
-- [ ] Stage 1 UI Development
-- [ ] Landing Page
-- [ ] Dashboard
 - [ ] Deposit Flow
 - [ ] Solana Integration
 - [ ] Card Issuance Integration
