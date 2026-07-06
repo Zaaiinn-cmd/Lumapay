@@ -167,11 +167,13 @@ lumapay/
 
 🟢 Dashboard
 
+🟢 Deposit Flow
+
+🟢 Solana Integration
+
 
 ### Upcoming
 
-- [ ] Deposit Flow
-- [ ] Solana Integration
 - [ ] Card Issuance Integration
 - [ ] Private Beta
 
