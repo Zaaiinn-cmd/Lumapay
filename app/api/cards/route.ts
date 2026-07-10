@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getCurrentWallet } from "@/lib/currentUser";
 
 function randomDigits(length: number) {
   return Array.from({ length }, () =>
@@ -7,7 +8,12 @@ function randomDigits(length: number) {
 }
 
 export async function GET() {
+  const wallet = await getCurrentWallet();
+
   const cards = await prisma.card.findMany({
+    where: {
+      walletId: wallet.id,
+    },
     orderBy: {
       createdAt: "desc",
     },
@@ -17,14 +23,7 @@ export async function GET() {
 }
 
 export async function POST() {
-  const wallet = await prisma.wallet.findFirst();
-
-  if (!wallet) {
-    return Response.json(
-      { error: "Wallet not found" },
-      { status: 404 }
-    );
-  }
+  const wallet = await getCurrentWallet();
 
   const existing = await prisma.card.findFirst({
     where: {
@@ -36,10 +35,14 @@ export async function POST() {
     return Response.json(existing);
   }
 
+  const holderName =
+    wallet.user.name ||
+    wallet.user.email.split("@")[0];
+
   const card = await prisma.card.create({
     data: {
       walletId: wallet.id,
-      holderName: "Test User",
+      holderName,
       cardNumber: "4532" + randomDigits(12),
       expiry: "12/30",
       cvv: randomDigits(3),
@@ -53,9 +56,12 @@ export async function POST() {
 export async function PATCH(req: Request) {
   const { id } = await req.json();
 
-  const card = await prisma.card.findUnique({
+  const wallet = await getCurrentWallet();
+
+  const card = await prisma.card.findFirst({
     where: {
       id,
+      walletId: wallet.id,
     },
   });
 
@@ -68,11 +74,11 @@ export async function PATCH(req: Request) {
 
   const updated = await prisma.card.update({
     where: {
-      id,
+      id: card.id,
     },
     data: {
       frozen: !card.frozen,
-      status: !card.frozen ? "FROZEN" : "ACTIVE",
+      status: card.frozen ? "ACTIVE" : "FROZEN",
     },
   });
 

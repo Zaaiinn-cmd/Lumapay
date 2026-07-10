@@ -12,29 +12,32 @@ export default function NewSubscriptionPage() {
   async function createSubscription() {
     setLoading(true);
 
-    // Get wallet
-    const wallet = await fetch("/api/wallet").then((r) => r.json());
+    try {
+      const res = await fetch("/api/subscriptions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type,
+        }),
+      });
 
-    const res = await fetch("/api/subscriptions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        walletId: wallet.id,
-        type,
-      }),
-    });
+      const data = await res.json();
 
-    if (res.ok) {
+      if (!res.ok) {
+        alert(data.error || "Failed to create subscription.");
+        return;
+      }
+
       router.push("/dashboard/subscriptions");
       router.refresh();
-    } else {
-      const error = await res.json();
-      alert(error.error);
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   return (
@@ -44,19 +47,21 @@ export default function NewSubscriptionPage() {
       </h1>
 
       <div className="space-y-3">
-        <label>Subscription Type</label>
+        <label className="block font-medium">
+          Subscription Type
+        </label>
 
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
-          className="w-full rounded-lg bg-white/5 border border-white/10 p-3"
+          className="w-full rounded-lg border border-white/10 bg-white/5 p-3"
         >
           <option value="monthly">
             Monthly ($1.50)
           </option>
 
           <option value="card_issuance">
-            Card Issuance ($3)
+            Card Issuance ($3.00)
           </option>
         </select>
       </div>
@@ -64,7 +69,7 @@ export default function NewSubscriptionPage() {
       <button
         onClick={createSubscription}
         disabled={loading}
-        className="px-6 py-3 rounded-lg bg-white text-black font-medium"
+        className="rounded-lg bg-white px-6 py-3 font-medium text-black transition hover:opacity-90 disabled:opacity-50"
       >
         {loading ? "Creating..." : "Subscribe"}
       </button>

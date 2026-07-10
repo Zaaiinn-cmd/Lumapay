@@ -1,7 +1,13 @@
 import { prisma } from "@/lib/prisma";
+import { getCurrentWallet } from "@/lib/currentUser";
 
 export async function GET() {
+  const wallet = await getCurrentWallet();
+
   const subscriptions = await prisma.subscription.findMany({
+    where: {
+      walletId: wallet.id,
+    },
     orderBy: {
       createdAt: "desc",
     },
@@ -11,29 +17,9 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { walletId, type } = await req.json();
+  const { type } = await req.json();
 
-  console.log("SUB REQUEST:", { walletId, type });
-
-  // Debug: list wallets
-  const allWallets = await prisma.wallet.findMany();
-  console.log("ALL WALLETS:", allWallets);
-
-  // Use findFirst temporarily
-  const wallet = await prisma.wallet.findFirst({
-    where: {
-      id: walletId,
-    },
-  });
-
-  console.log("FOUND WALLET:", wallet);
-
-  if (!wallet) {
-    return Response.json(
-      { error: "Wallet not found" },
-      { status: 404 }
-    );
-  }
+  const wallet = await getCurrentWallet();
 
   let fee = 0;
 
@@ -78,8 +64,21 @@ export async function POST(req: Request) {
     },
   });
 
+  const transaction = await prisma.transaction.create({
+    data: {
+      walletId: wallet.id,
+      amount: fee,
+      fee: 0,
+      description:
+        type === "card_issuance"
+          ? "Virtual Card Issuance"
+          : "Monthly Subscription Payment",
+    },
+  });
+
   return Response.json({
     wallet: updatedWallet,
     subscription,
+    transaction,
   });
 }

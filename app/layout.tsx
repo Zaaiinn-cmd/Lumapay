@@ -1,5 +1,6 @@
 import "./globals.css";
 import Link from "next/link";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
   title: "LumaPay",
@@ -12,30 +13,35 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-black text-white">
+    <ClerkProvider>
+      <html lang="en">
+        <body className="bg-black text-white">
 
-        {/* NAVBAR */}
-        <div className="flex items-center justify-between px-8 py-6 border-b border-white/10">
-          <Link href="/" className="font-semibold">
-            LumaPay
-          </Link>
-
-          <div className="flex gap-6 text-sm text-gray-400">
-            <Link href="/" className="hover:text-white transition">
-              Home
+          {/* NAVBAR */}
+          <div className="flex items-center justify-between px-8 py-6 border-b border-white/10">
+            <Link href="/" className="font-semibold">
+              LumaPay
             </Link>
 
-            <Link href="/dashboard" className="hover:text-white transition">
-              Dashboard
-            </Link>
+            <div className="flex gap-6 text-sm text-gray-400">
+              <Link href="/" className="hover:text-white transition">
+                Home
+              </Link>
+
+              <Link
+                href="/dashboard"
+                className="hover:text-white transition"
+              >
+                Dashboard
+              </Link>
+            </div>
           </div>
-        </div>
 
-        {/* PAGE CONTENT */}
-        {children}
+          {/* PAGE CONTENT */}
+          {children}
 
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

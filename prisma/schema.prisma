@@ -12,19 +12,20 @@ model User {
   email     String   @unique
   name      String?
   createdAt DateTime @default(now())
-
-  wallet Wallet?
+  clerkId   String   @unique
+  wallet    Wallet?
 }
 
 model Wallet {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  balance   Float    @default(0)
-
-  user          User           @relation(fields: [userId], references: [id])
-  transactions  Transaction[]
-  subscriptions Subscription[]
-  cards         Card[]
+  id             String         @id @default(cuid())
+  userId         String         @unique
+  balance        Float          @default(0)
+  depositAddress String?        @unique
+  cards          Card[]
+  subscriptions  Subscription[]
+  transactions   Transaction[]
+  user           User           @relation(fields: [userId], references: [id])
+  deposits       Deposit[]
 }
 
 model Transaction {
@@ -35,7 +36,9 @@ model Transaction {
   fee         Float
   description String
 
-  createdAt DateTime @default(now())
+  type        String   @default("PAYMENT")
+
+  createdAt   DateTime @default(now())
 
   wallet Wallet @relation(fields: [walletId], references: [id])
 }
@@ -43,32 +46,38 @@ model Transaction {
 model Subscription {
   id        String   @id @default(cuid())
   walletId  String
-
   type      String
   name      String
   amount    Float
   status    String   @default("ACTIVE")
   nextBill  DateTime
-
   createdAt DateTime @default(now())
-
-  wallet Wallet @relation(fields: [walletId], references: [id])
+  wallet    Wallet   @relation(fields: [walletId], references: [id])
 }
 
 model Card {
   id         String   @id @default(cuid())
   walletId   String
-
   holderName String
   cardNumber String
   expiry     String
   cvv        String
   brand      String
-
   status     String   @default("ACTIVE")
   frozen     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  wallet     Wallet   @relation(fields: [walletId], references: [id])
+}
 
-  createdAt DateTime @default(now())
+model Deposit {
+  id            String   @id @default(cuid())
+  walletId       String
+  txSignature    String   @unique
+  token          String
+  amount         Float
+  sender         String?
+  status         String   @default("CONFIRMED")
+  createdAt      DateTime @default(now())
 
   wallet Wallet @relation(fields: [walletId], references: [id])
 }
