@@ -1,9 +1,8 @@
-
 # LumaPay
 
-> Stablecoin-powered payments for the global internet.
+**Stablecoin-powered payments for the global internet.**
 
-LumaPay is a web application that allows users to fund a virtual USD card using stablecoins and pay for global subscriptions such as ChatGPT, Claude, Netflix, GitHub, and more.
+LumaPay is a web application that allows users to fund a virtual USD card using stablecoins and pay for global subscriptions such as ChatGPT, Claude, Netflix, GitHub, Spotify, and more.
 
 Our goal is to make international subscriptions accessible to users who face payment restrictions, card declines, or limited access to global payment infrastructure.
 
@@ -18,7 +17,7 @@ Millions of users struggle to pay for global products and services due to:
 - Limited access to international payment methods
 - Difficulty accessing USD-denominated payment instruments
 
-As a result, users are unable to consistently pay for tools they rely on daily.
+As a result, users are unable to consistently pay for tools they rely on every day.
 
 Examples include:
 
@@ -35,7 +34,7 @@ Examples include:
 
 LumaPay provides:
 
-- Stablecoin funding (USDT / USDC)
+- Stablecoin funding (USDC / USDT)
 - Virtual USD card issuance
 - Subscription-friendly payment infrastructure
 - Transparent transaction fees
@@ -48,28 +47,33 @@ Users fund their account with stablecoins and spend through a virtual card anywh
 ## MVP Scope
 
 ### Stage 1
-- Landing page
-- Waitlist signup
-- Dashboard UI
-- Virtual card UI
-- Transaction history UI
-- Subscription management UI
+
+- ✅ Landing page
+- ✅ Authentication
+- ✅ Dashboard
+- ✅ Virtual card UI
+- ✅ Transaction history
+- ✅ Subscription management
 
 ### Stage 2
-- Solana deposits
-- USDT support
-- USDC support
-- Internal USD ledger
+
+- ✅ Solana deposit addresses
+- ✅ USDC support (foundation)
+- ✅ USDT support (foundation)
+- ✅ Internal USD wallet
+- 🚧 Blockchain deposit processor
 
 ### Stage 3
-- Card issuance integration
-- Payment authorization
-- Balance tracking
+
+- ⏳ Card issuance integration
+- ⏳ Payment authorization
+- ⏳ Balance synchronization
 
 ### Stage 4
-- Subscription detection
-- Payment notifications
-- Spending analytics
+
+- ⏳ Subscription detection
+- ⏳ Payment notifications
+- ⏳ Spending analytics
 
 ---
 
@@ -77,7 +81,7 @@ Users fund their account with stablecoins and spend through a virtual card anywh
 
 LumaPay charges:
 
-- $0.50 per successful transaction
+- **$0.50** per successful transaction
 
 No fees are charged for:
 
@@ -90,17 +94,17 @@ No fees are charged for:
 ## User Flow
 
 ```text
-Deposit USDT/USDC
+Deposit USDC / USDT
         ↓
 Receive USD Balance
         ↓
 Generate Virtual Card
         ↓
-Pay For Global Subscriptions
+Pay for Global Subscriptions
         ↓
 Successful Payment
         ↓
-LumaPay earns $0.50 fee
+LumaPay earns $0.50
 ```
 
 ---
@@ -110,6 +114,7 @@ LumaPay earns $0.50 fee
 ### Frontend
 
 - Next.js
+- React
 - TypeScript
 - Tailwind CSS
 - shadcn/ui
@@ -118,13 +123,18 @@ LumaPay earns $0.50 fee
 ### Backend
 
 - Node.js
-- TypeScript
+- Next.js API Routes
+- Prisma ORM
+- PostgreSQL (Neon)
+- Clerk Authentication
 
 ### Blockchain
 
 - Solana
-- USDT
+- Solana Web3.js
+- QuickNode RPC
 - USDC
+- USDT
 
 ### Infrastructure
 
@@ -141,14 +151,12 @@ lumapay/
 ├── app/
 ├── components/
 ├── lib/
-├── services/
-│   ├── solana/
-│   ├── ledger/
-│   └── payments/
-│
+│   ├── blockchain/
+│   ├── prisma/
+│   └── ...
+├── prisma/
 ├── public/
-├── styles/
-├── docs/
+├── screenshots/
 └── README.md
 ```
 
@@ -156,26 +164,30 @@ lumapay/
 
 ## Roadmap
 
-### Current Status
+### Completed ✅
 
+- Authentication
+- Multi-user wallet system
+- Dashboard
+- Virtual cards
+- Subscription management
+- Spending analytics
+- Deposit page
+- Unique Solana deposit addresses
+- QuickNode integration
+- Blockchain listener architecture
 
-🟢 Planning & Design
+### In Progress 🚧
 
-🟢 Stage 1 UI Development
-
-🟢 Landing Page
-
-🟢 Dashboard
-
-🟢 Deposit Flow
-
-🟢 Solana Integration
-
+- Automatic blockchain deposit processing
+- SPL token verification
+- Idempotent deposit crediting
 
 ### Upcoming
 
-- [ ] Card Issuance Integration
-- [ ] Private Beta
+- Virtual card issuance
+- Mainnet support
+- Private beta
 
 ---
 
@@ -189,5 +201,4 @@ LumaPay aims to become the easiest way for anyone to pay for global digital serv
 
 ## Disclaimer
 
-LumaPay is currently under development and not available for production use.
->>>>>>> 1c4d577465866ee2988ca0a261265256695efbfe
+LumaPay is currently under development and is **not** available for production use.
