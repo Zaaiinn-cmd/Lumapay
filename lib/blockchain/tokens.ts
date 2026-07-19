@@ -1,21 +1,37 @@
-// Devnet token mints
-export const DEVNET_TOKENS = {
-  USDC: "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+export const SUPPORTED_TOKENS = {
+  devnet: {
+    USDC: "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+  },
+
+  mainnet: {
+    USDC: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+
+    USDT: "Es9vMFrzaCERmJfrF4H2JY3Y6sVvZzK5x2D8hFQ9wJf",
+  },
 };
 
-// Mainnet token mints
-export const MAINNET_TOKENS = {
-  USDC: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-  USDT: "Es9vMFrzaCERmJfrF4H2FYDutLhJw6B9P4s3L8M6kM4",
-};
+export function isSupportedMint(
+  mint: string
+) {
+  const network =
+    process.env.SOLANA_NETWORK === "mainnet"
+      ? SUPPORTED_TOKENS.mainnet
+      : SUPPORTED_TOKENS.devnet;
 
-const isMainnet =
-  process.env.SOLANA_RPC_URL?.includes("mainnet") ?? false;
+  return Object.values(network).includes(mint);
+}
 
-export const SUPPORTED_TOKENS = isMainnet
-  ? MAINNET_TOKENS
-  : DEVNET_TOKENS;
+export function getTokenSymbol(
+  mint: string
+) {
+  const network =
+    process.env.SOLANA_NETWORK === "mainnet"
+      ? SUPPORTED_TOKENS.mainnet
+      : SUPPORTED_TOKENS.devnet;
 
-export function isSupportedMint(mint: string) {
-  return Object.values(SUPPORTED_TOKENS).includes(mint);
+  return (
+    Object.entries(network).find(
+      ([, value]) => value === mint
+    )?.[0] ?? null
+  );
 }

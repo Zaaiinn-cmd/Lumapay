@@ -70,14 +70,13 @@ model Card {
 }
 
 model Deposit {
-  id            String   @id @default(cuid())
-  walletId       String
-  txSignature    String   @unique
-  token          String
-  amount         Float
-  sender         String?
-  status         String   @default("CONFIRMED")
-  createdAt      DateTime @default(now())
+  id          String   @id @default(cuid())
+  walletId    String
+  wallet      Wallet   @relation(fields: [walletId], references: [id])
 
-  wallet Wallet @relation(fields: [walletId], references: [id])
+  signature   String   @unique
+  amount      Float
+  token       String
+
+  createdAt   DateTime @default(now())
 }
