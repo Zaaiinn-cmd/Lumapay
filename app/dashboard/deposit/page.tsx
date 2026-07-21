@@ -4,11 +4,15 @@ import { getCurrentWallet } from "@/lib/currentUser";
 export default async function DepositPage() {
   const wallet = await getCurrentWallet();
 
-  const deposit = {
-    address: "7xKXy1J6Zr2hF8V4vP9nLmQ3aBcDeFgHiJkLmNoPqRs",
-    network: "Solana",
-    supportedTokens: ["USDC", "USDT"],
-  };
+  if (!wallet) {
+    return (
+      <div>
+        <h1 className="text-2xl font-bold">
+          Wallet not found
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -23,9 +27,9 @@ export default async function DepositPage() {
       </div>
 
       <DepositCard
-        address={deposit.address}
-        network={deposit.network}
-        supportedTokens={deposit.supportedTokens}
+        address={wallet.depositAddress ?? ""}
+        network="Solana"
+        supportedTokens={["USDC", "USDT"]}
       />
     </div>
   );
