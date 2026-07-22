@@ -1,0 +1,46 @@
+
+> lumapay@0.1.0 build
+> next build
+
+▲ Next.js 16.2.7 (Turbopack)
+- Environments: .env
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 26.1s
+  Running TypeScript ...
+  Finished TypeScript in 26.5s ...
+  Collecting page data using 7 workers ...
+🟢 Solana RPC: https://snowy-responsive-mound.solana-devnet.quiknode.pro/d500f494dbf233f2e3909e3da8a5df8285d4a660/
+🟢 Solana RPC: https://snowy-responsive-mound.solana-devnet.quiknode.pro/d500f494dbf233f2e3909e3da8a5df8285d4a660/
+  Generating static pages using 7 workers (0/17) ...
+  Generating static pages using 7 workers (4/17) 
+  Generating static pages using 7 workers (8/17) 
+  Generating static pages using 7 workers (12/17) 
+✓ Generating static pages using 7 workers (17/17) in 587ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/cards
+├ ƒ /api/deposit
+├ ƒ /api/listen
+├ ƒ /api/subscriptions
+├ ƒ /api/test
+├ ƒ /api/transactions
+├ ƒ /api/wallet
+├ ƒ /api/webhooks/quicknode
+├ ƒ /dashboard
+├ ƒ /dashboard/cards
+├ ƒ /dashboard/deposit
+├ ○ /dashboard/settings
+├ ƒ /dashboard/subscriptions
+└ ○ /dashboard/subscriptions/new
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
