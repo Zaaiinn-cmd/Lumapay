@@ -31,10 +31,7 @@ export async function processTransaction(
     return;
   }
 
-  console.log(
-    "📌 Confirmation Status:",
-    transaction.meta?.status
-  );
+  console.log("✅ Transaction confirmed");
 
   if (
     !transaction.meta?.postTokenBalances ||
@@ -77,9 +74,7 @@ export async function processTransaction(
       parsed.type
     );
 
-    console.log(
-      "Instruction Info:"
-    );
+    console.log("Instruction Info:");
     console.dir(parsed.info, {
       depth: null,
     });
@@ -191,7 +186,7 @@ export async function processTransaction(
 
     const amount = Number(
       parsed.info.tokenAmount?.uiAmount ??
-        parsed.info.amount
+      parsed.info.amount
     );
 
     console.log(

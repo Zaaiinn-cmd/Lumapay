@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function SubscriptionsPage() {
   const subscriptions = await prisma.subscription.findMany({
     orderBy: {
@@ -11,11 +13,13 @@ export default async function SubscriptionsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Subscriptions</h1>
+        <h1 className="text-3xl font-bold">
+          Subscriptions
+        </h1>
 
         <Link
           href="/dashboard/subscriptions/new"
-          className="px-4 py-2 rounded-lg bg-white text-black font-medium"
+          className="rounded-lg bg-white px-4 py-2 font-medium text-black"
         >
           + New Subscription
         </Link>
@@ -30,7 +34,7 @@ export default async function SubscriptionsPage() {
           {subscriptions.map((sub) => (
             <div
               key={sub.id}
-              className="rounded-xl border border-white/10 bg-white/5 p-5 flex justify-between items-center"
+              className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-5"
             >
               <div>
                 <h2 className="text-lg font-semibold">
@@ -41,7 +45,7 @@ export default async function SubscriptionsPage() {
                   {sub.type}
                 </p>
 
-                <p className="text-sm text-gray-400 mt-1">
+                <p className="mt-1 text-sm text-gray-400">
                   Next Billing:{" "}
                   {new Date(sub.nextBill).toLocaleDateString()}
                 </p>
@@ -53,7 +57,7 @@ export default async function SubscriptionsPage() {
                 </p>
 
                 <span
-                  className={`inline-block mt-2 px-3 py-1 rounded-full text-sm ${
+                  className={`mt-2 inline-block rounded-full px-3 py-1 text-sm ${
                     sub.status === "ACTIVE"
                       ? "bg-green-500/20 text-green-400"
                       : "bg-red-500/20 text-red-400"

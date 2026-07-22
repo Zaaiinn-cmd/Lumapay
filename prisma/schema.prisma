@@ -22,25 +22,21 @@ model Wallet {
   balance        Float          @default(0)
   depositAddress String?        @unique
   cards          Card[]
+  deposits       Deposit[]
   subscriptions  Subscription[]
   transactions   Transaction[]
   user           User           @relation(fields: [userId], references: [id])
-  deposits       Deposit[]
 }
 
 model Transaction {
   id          String   @id @default(cuid())
   walletId    String
-
   amount      Float
   fee         Float
   description String
-
-  type        String   @default("PAYMENT")
-
   createdAt   DateTime @default(now())
-
-  wallet Wallet @relation(fields: [walletId], references: [id])
+  type        String   @default("PAYMENT")
+  wallet      Wallet   @relation(fields: [walletId], references: [id])
 }
 
 model Subscription {
@@ -70,13 +66,11 @@ model Card {
 }
 
 model Deposit {
-  id          String   @id @default(cuid())
-  walletId    String
-  wallet      Wallet   @relation(fields: [walletId], references: [id])
-
-  signature   String   @unique
-  amount      Float
-  token       String
-
-  createdAt   DateTime @default(now())
+  id        String   @id @default(cuid())
+  walletId  String
+  token     String
+  amount    Float
+  createdAt DateTime @default(now())
+  signature String   @unique
+  wallet    Wallet   @relation(fields: [walletId], references: [id])
 }
