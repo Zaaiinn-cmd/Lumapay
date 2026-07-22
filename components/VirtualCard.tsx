@@ -43,6 +43,9 @@ export default function VirtualCard({
     );
   }
 
+  // TypeScript now knows this is always defined
+  const cardData = data;
+
   async function toggleFreeze() {
     setLoading(true);
 
@@ -52,7 +55,7 @@ export default function VirtualCard({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: data.id,
+        id: cardData.id,
       }),
     });
 
@@ -63,14 +66,14 @@ export default function VirtualCard({
   }
 
   async function copyNumber() {
-    await navigator.clipboard.writeText(data.cardNumber);
+    await navigator.clipboard.writeText(cardData.cardNumber);
     alert("Card number copied!");
   }
 
   const masked =
-    data.cardNumber.slice(0, 4) +
+    cardData.cardNumber.slice(0, 4) +
     " •••• •••• " +
-    data.cardNumber.slice(-4);
+    cardData.cardNumber.slice(-4);
 
   return (
     <div className="space-y-6">
@@ -99,7 +102,7 @@ export default function VirtualCard({
               />
 
               <span className="font-bold tracking-widest">
-                {data.brand}
+                {cardData.brand}
               </span>
             </div>
           </div>
@@ -110,7 +113,7 @@ export default function VirtualCard({
           {/* Card Number */}
           <div className="flex items-center justify-between">
             <p className="font-mono text-2xl tracking-[0.25em]">
-              {showNumber ? data.cardNumber : masked}
+              {showNumber ? cardData.cardNumber : masked}
             </p>
 
             <button onClick={() => setShowNumber(!showNumber)}>
@@ -129,7 +132,7 @@ export default function VirtualCard({
               </p>
 
               <p className="font-semibold">
-                {data.holderName}
+                {cardData.holderName}
               </p>
             </div>
 
@@ -138,7 +141,7 @@ export default function VirtualCard({
                 EXPIRES
               </p>
 
-              <p>{data.expiry}</p>
+              <p>{cardData.expiry}</p>
             </div>
           </div>
         </div>
@@ -161,7 +164,7 @@ export default function VirtualCard({
         >
           {loading
             ? "Updating..."
-            : data.frozen
+            : cardData.frozen
             ? "Unfreeze Card"
             : "Freeze Card"}
         </button>
@@ -170,19 +173,19 @@ export default function VirtualCard({
       {/* Card Details */}
       <div className="max-w-md rounded-xl border border-white/10 bg-white/5 p-6">
         <p>
-          <strong>Status:</strong> {data.status}
+          <strong>Status:</strong> {cardData.status}
         </p>
 
         <p className="mt-3">
           <strong>Frozen:</strong>{" "}
-          {data.frozen ? "Yes ❄️" : "No ✅"}
+          {cardData.frozen ? "Yes ❄️" : "No ✅"}
         </p>
 
         <div className="mt-3 flex items-center gap-3">
           <strong>CVV:</strong>
 
           <span>
-            {showCVV ? data.cvv : "***"}
+            {showCVV ? cardData.cvv : "***"}
           </span>
 
           <button
