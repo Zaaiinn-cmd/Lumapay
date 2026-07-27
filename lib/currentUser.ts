@@ -2,40 +2,42 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 
 export async function getCurrentUser() {
-  const { userId } = await auth();
+  try {
+    const { userId } = await auth();
 
-  if (!userId) {
-    throw new Error("Unauthorized");
+    if (!userId) {
+      return null;
+    }
+
+    return await prisma.user.findUnique({
+      where: {
+        clerkId: userId,
+      },
+    });
+  } catch (error) {
+    console.error("getCurrentUser:", error);
+    return null;
   }
-
-  const user = await prisma.user.findUnique({
-    where: {
-      clerkId: userId,
-    },
-  });
-
-  if (!user) {
-    throw new Error("User not found");
-  }
-
-  return user;
 }
 
 export async function getCurrentWallet() {
-  const user = await getCurrentUser();
+  try {
+    const user = await getCurrentUser();
 
-  const wallet = await prisma.wallet.findUnique({
-    where: {
-      userId: user.id,
-    },
-    include: {
-      user: true,
-    },
-  });
+    if (!user) {
+      return null;
+    }
 
-  if (!wallet) {
-    throw new Error("Wallet not found");
+    return await prisma.wallet.findUnique({
+      where: {
+        userId: user.id,
+      },
+      include: {
+        user: true,
+      },
+    });
+  } catch (error) {
+    console.error("getCurrentWallet:", error);
+    return null;
   }
-
-  return wallet;
 }
