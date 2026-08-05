@@ -5,6 +5,13 @@ import { generateDepositWallet } from "@/lib/solana";
 export async function GET() {
   const user = await getCurrentUser();
 
+  if (!user) {
+    return Response.json(
+      { error: "Unauthorized" },
+      { status: 401 }
+    );
+  }
+
   let wallet = await prisma.wallet.findUnique({
     where: {
       userId: user.id,

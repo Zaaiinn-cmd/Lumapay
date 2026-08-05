@@ -15,6 +15,20 @@ import {
 export default async function Dashboard() {
   const wallet = await getCurrentWallet();
 
+  if (!wallet) {
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">
+        Unauthorized
+      </h1>
+
+      <p className="mt-2 text-gray-400">
+        Please sign in to access your dashboard.
+      </p>
+    </div>
+  );
+}
+
   const transactions = await prisma.transaction.findMany({
     where: {
       walletId: wallet.id,
