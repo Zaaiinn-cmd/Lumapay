@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import DepositCard from "@/components/DepositCard";
 import { getCurrentWallet } from "@/lib/currentUser";
 

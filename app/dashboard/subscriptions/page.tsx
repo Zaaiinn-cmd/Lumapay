@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
+import { prisma } from "@/lib/prisma";
 export default async function SubscriptionsPage() {
   const subscriptions = await prisma.subscription.findMany({
     orderBy: {

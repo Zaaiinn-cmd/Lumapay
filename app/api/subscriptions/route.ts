@@ -38,7 +38,11 @@ export async function POST(req: Request) {
   const subscription = await prisma.subscription.create({
     data: {
       walletId: wallet.id,
-      ...body,
+      name: body.name,
+      type: body.type,
+      amount: body.amount,
+      nextBill: new Date(body.nextBill),
+      status: "ACTIVE",
     },
   });
 

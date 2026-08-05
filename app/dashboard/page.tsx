@@ -1,4 +1,7 @@
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/prisma";
 import { getCurrentWallet } from "@/lib/currentUser";
 import SpendingChart from "@/components/SpendingChart";

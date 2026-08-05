@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/prisma";
 import { getCurrentWallet } from "@/lib/currentUser";
 import VirtualCard from "@/components/VirtualCard";
