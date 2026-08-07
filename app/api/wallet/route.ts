@@ -28,7 +28,7 @@ export async function GET() {
     wallet = await prisma.wallet.create({
       data: {
         userId: user.id,
-        balance: 5000,
+        balance: 0,
         depositAddress,
       },
       include: {

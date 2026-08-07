@@ -1,43 +1,72 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { generateDepositWallet } from "@/lib/solana";
 
 export async function getCurrentUser() {
-  try {
-    const { userId } = await auth();
+  const { userId } = await auth();
 
-    if (!userId) {
+  if (!userId) {
+    return null;
+  }
+
+  // Already exists?
+  let user = await prisma.user.findUnique({
+    where: {
+      clerkId: userId,
+    },
+  });
+
+  if (!user) {
+    const clerkUser = await currentUser();
+
+    if (!clerkUser || !clerkUser.emailAddresses.length) {
       return null;
     }
 
-    return await prisma.user.findUnique({
-      where: {
+    user = await prisma.user.create({
+      data: {
         clerkId: userId,
+        email: clerkUser.emailAddresses[0].emailAddress,
+        name:
+          `${clerkUser.firstName ?? ""} ${clerkUser.lastName ?? ""}`.trim() ||
+          null,
       },
     });
-  } catch (error) {
-    console.error("getCurrentUser:", error);
-    return null;
   }
+
+  return user;
 }
 
 export async function getCurrentWallet() {
-  try {
-    const user = await getCurrentUser();
+  const user = await getCurrentUser();
 
-    if (!user) {
-      return null;
-    }
+  if (!user) {
+    return null;
+  }
 
-    return await prisma.wallet.findUnique({
-      where: {
+  let wallet = await prisma.wallet.findUnique({
+    where: {
+      userId: user.id,
+    },
+    include: {
+      user: true,
+    },
+  });
+
+  if (!wallet) {
+    const { depositAddress } = generateDepositWallet();
+
+    wallet = await prisma.wallet.create({
+      data: {
         userId: user.id,
+        balance: 0,
+        depositAddress,
       },
       include: {
         user: true,
       },
     });
-  } catch (error) {
-    console.error("getCurrentWallet:", error);
-    return null;
   }
+
+  return wallet;
 }
