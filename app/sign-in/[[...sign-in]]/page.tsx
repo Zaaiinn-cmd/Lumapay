@@ -7,14 +7,11 @@ export default function SignInPage() {
         routing="path"
         path="/sign-in"
         signUpUrl="/sign-up"
-        afterSignInUrl="/dashboard"
+        forceRedirectUrl="/dashboard"
         appearance={{
           variables: {
             colorPrimary: "#10b981",
             colorBackground: "#030303",
-            colorText: "#ffffff",
-            colorInputBackground: "#111111",
-            colorInputText: "#ffffff",
           },
         }}
       />
