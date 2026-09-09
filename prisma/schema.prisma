@@ -45,7 +45,7 @@ model User {
 model Wallet {
   id             String   @id @default(cuid())
   userId         String   @unique
-  balance        Float    @default(0)
+  balance        Decimal  @default(0) @db.Decimal(30, 6)
   depositAddress String?  @unique
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -60,8 +60,8 @@ model Wallet {
 model Transaction {
   id          String          @id @default(cuid())
   walletId    String
-  amount      Float
-  fee         Float           @default(0)
+  amount      Decimal         @db.Decimal(30, 6)
+  fee         Decimal         @default(0) @db.Decimal(30, 6)
   description String
   type        TransactionType @default(PAYMENT)
   createdAt   DateTime        @default(now())
@@ -101,7 +101,7 @@ model Deposit {
   id        String        @id @default(cuid())
   walletId  String
   token     String
-  amount    Float
+  amount    Decimal       @db.Decimal(30, 6)
   signature String        @unique
   status    DepositStatus @default(CONFIRMED)
   blockTime DateTime?

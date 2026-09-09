@@ -13,5 +13,8 @@ export async function GET() {
 
   const wallet = await ensureWalletExists(user.id);
 
-  return Response.json(wallet);
+  return Response.json({
+    ...wallet,
+    balance: wallet.balance.toString(),
+  });
 }

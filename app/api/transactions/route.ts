@@ -21,5 +21,11 @@ export async function GET() {
     },
   });
 
-  return Response.json(transactions);
+  return Response.json(
+    transactions.map((transaction) => ({
+      ...transaction,
+      amount: transaction.amount.toString(),
+      fee: transaction.fee.toString(),
+    }))
+  );
 }

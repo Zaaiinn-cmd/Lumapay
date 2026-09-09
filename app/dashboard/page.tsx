@@ -20,63 +20,72 @@ export default async function Dashboard() {
   const wallet = await getCurrentWallet();
 
   if (!wallet) {
-  return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold">
-        Unauthorized
-      </h1>
-
-      <p className="mt-2 text-gray-400">
-        Please sign in to access your dashboard.
-      </p>
-    </div>
-  );
-}
+    return (
+      <div className="p-8">
+        <h1 className="text-2xl font-bold">Unauthorized</h1>
+        <p className="mt-2 text-gray-400">
+          Please sign in to access your dashboard.
+        </p>
+      </div>
+    );
+  }
 
   const transactions = await prisma.transaction.findMany({
-    where: {
-      walletId: wallet.id,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+    where: { walletId: wallet.id },
+    orderBy: { createdAt: "desc" },
   });
 
   const subscriptions = await prisma.subscription.findMany({
-    where: {
-      walletId: wallet.id,
-      status: "ACTIVE",
-    },
+    where: { walletId: wallet.id, status: "ACTIVE" },
   });
 
   const card = await prisma.card.findFirst({
-    where: {
-      walletId: wallet.id,
-    },
+    where: { walletId: wallet.id },
   });
 
-  const {
-    chartData,
-    totalSpent,
-    totalFees,
-    averagePayment,
-    biggestPayment,
-  } = computeSpendingAnalytics(transactions);
+  const payments = transactions
+    .filter((tx) => tx.type === "PAYMENT")
+    .map((tx) => ({
+      ...tx,
+      amountNumber: Number(tx.amount),
+      feeNumber: Number(tx.fee),
+    }));
+
+  const chartData = [...payments]
+    .reverse()
+    .map((tx) => ({
+      date: new Date(tx.createdAt).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }),
+      amount: tx.amountNumber,
+    }));
+
+  const totalSpent = payments.reduce(
+    (sum, tx) => sum + tx.amountNumber,
+    0
+  );
+
+  const totalFees = payments.reduce(
+    (sum, tx) => sum + tx.feeNumber,
+    0
+  );
+
+  const averagePayment =
+    payments.length > 0 ? totalSpent / payments.length : 0;
+
+  const biggestPayment =
+    payments.length > 0
+      ? Math.max(...payments.map((tx) => tx.amountNumber))
+      : 0;
 
   return (
     <div className="space-y-8">
-      {/* HEADER */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">
-            Dashboard
-          </h1>
-
-          <p className="text-gray-400 mt-1">
-            Welcome back to LumaPay
-          </p>
+          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <p className="text-gray-400 mt-1">Welcome back to LumaPay</p>
         </div>
-
         <Link
           href="/dashboard/deposit"
           className="rounded-xl bg-white px-5 py-2 text-black font-medium hover:opacity-90 transition"
@@ -85,152 +94,81 @@ export default async function Dashboard() {
         </Link>
       </div>
 
-      {/* TOP STATS */}
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
           <div className="flex justify-between">
             <Wallet />
-            <span className="text-green-400 text-sm">
-              Wallet
-            </span>
+            <span className="text-green-400 text-sm">Wallet</span>
           </div>
-
           <h2 className="mt-4 text-3xl font-bold">
-            ${wallet.balance.toFixed(2)}
+            ${Number(wallet.balance).toFixed(2)}
           </h2>
-
-          <p className="text-gray-400 text-sm mt-2">
-            Available Balance
-          </p>
+          <p className="text-gray-400 text-sm mt-2">Available Balance</p>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
           <div className="flex justify-between">
             <Receipt />
-            <span className="text-blue-400 text-sm">
-              Payments
-            </span>
+            <span className="text-blue-400 text-sm">Payments</span>
           </div>
-
-          <h2 className="mt-4 text-3xl font-bold">
-            {transactions.length}
-          </h2>
-
-          <p className="text-gray-400 text-sm mt-2">
-            Total Transactions
-          </p>
+          <h2 className="mt-4 text-3xl font-bold">{transactions.length}</h2>
+          <p className="text-gray-400 text-sm mt-2">Total Transactions</p>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
           <div className="flex justify-between">
             <Repeat />
-            <span className="text-purple-400 text-sm">
-              Active
-            </span>
+            <span className="text-purple-400 text-sm">Active</span>
           </div>
-
-          <h2 className="mt-4 text-3xl font-bold">
-            {subscriptions.length}
-          </h2>
-
-          <p className="text-gray-400 text-sm mt-2">
-            Subscriptions
-          </p>
+          <h2 className="mt-4 text-3xl font-bold">{subscriptions.length}</h2>
+          <p className="text-gray-400 text-sm mt-2">Subscriptions</p>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
           <div className="flex justify-between">
             <CreditCard />
-
             <span
               className={`text-sm ${
-                card?.frozen
-                  ? "text-red-400"
-                  : "text-green-400"
+                card?.frozen ? "text-red-400" : "text-green-400"
               }`}
             >
-              {card
-                ? card.frozen
-                  ? "Frozen"
-                  : "Active"
-                : "No Card"}
+              {card ? (card.frozen ? "Frozen" : "Active") : "No Card"}
             </span>
           </div>
-
-          <h2 className="mt-4 text-3xl font-bold">
-            {card ? "1" : "0"}
-          </h2>
-
-          <p className="text-gray-400 text-sm mt-2">
-            Virtual Cards
-          </p>
+          <h2 className="mt-4 text-3xl font-bold">{card ? "1" : "0"}</h2>
+          <p className="text-gray-400 text-sm mt-2">Virtual Cards</p>
         </div>
       </div>
 
-      {/* ANALYTICS */}
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
           <DollarSign />
-
-          <h2 className="mt-4 text-3xl font-bold">
-            ${totalSpent.toFixed(2)}
-          </h2>
-
-          <p className="text-gray-400 text-sm mt-2">
-            Total Spent
-          </p>
+          <h2 className="mt-4 text-3xl font-bold">${totalSpent.toFixed(2)}</h2>
+          <p className="text-gray-400 text-sm mt-2">Total Spent</p>
         </div>
-
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
           <TrendingUp />
-
-          <h2 className="mt-4 text-3xl font-bold">
-            ${totalFees.toFixed(2)}
-          </h2>
-
-          <p className="text-gray-400 text-sm mt-2">
-            Total Fees Paid
-          </p>
+          <h2 className="mt-4 text-3xl font-bold">${totalFees.toFixed(2)}</h2>
+          <p className="text-gray-400 text-sm mt-2">Total Fees Paid</p>
         </div>
-
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
           <BarChart3 />
-
-          <h2 className="mt-4 text-3xl font-bold">
-            ${averagePayment.toFixed(2)}
-          </h2>
-
-          <p className="text-gray-400 text-sm mt-2">
-            Average Payment
-          </p>
+          <h2 className="mt-4 text-3xl font-bold">${averagePayment.toFixed(2)}</h2>
+          <p className="text-gray-400 text-sm mt-2">Average Payment</p>
         </div>
-
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
           <Receipt />
-
-          <h2 className="mt-4 text-3xl font-bold">
-            ${biggestPayment.toFixed(2)}
-          </h2>
-
-          <p className="text-gray-400 text-sm mt-2">
-            Biggest Payment
-          </p>
+          <h2 className="mt-4 text-3xl font-bold">${biggestPayment.toFixed(2)}</h2>
+          <p className="text-gray-400 text-sm mt-2">Biggest Payment</p>
         </div>
       </div>
 
-      {/* SPENDING CHART */}
       <SpendingChart data={chartData} />
 
-      {/* RECENT TRANSACTIONS */}
       <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-        <h2 className="mb-5 text-xl font-semibold">
-          Recent Transactions
-        </h2>
-
+        <h2 className="mb-5 text-xl font-semibold">Recent Transactions</h2>
         {transactions.length === 0 ? (
-          <p className="text-gray-400">
-            No transactions yet.
-          </p>
+          <p className="text-gray-400">No transactions yet.</p>
         ) : (
           <div className="space-y-3">
             {transactions.map((t) => (
@@ -239,29 +177,22 @@ export default async function Dashboard() {
                 className="flex justify-between rounded-xl border border-white/10 bg-black/20 p-4"
               >
                 <div>
-                  <p className="font-medium">
-                    {t.description}
-                  </p>
-
+                  <p className="font-medium">{t.description}</p>
                   <p className="text-xs text-gray-500">
                     {new Date(t.createdAt).toLocaleString()}
                   </p>
                 </div>
-
                 <div className="text-right">
                   <p
                     className={`font-semibold ${
-                      t.type === "DEPOSIT"
-                        ? "text-green-400"
-                        : "text-red-400"
+                      t.type === "DEPOSIT" ? "text-green-400" : "text-red-400"
                     }`}
                   >
                     {t.type === "DEPOSIT" ? "+" : "-"}$
-                    {t.amount.toFixed(2)}
+                    {Number(t.amount).toFixed(2)}
                   </p>
-
                   <p className="text-xs text-gray-500">
-                    Fee: ${t.fee.toFixed(2)}
+                    Fee: ${Number(t.fee).toFixed(2)}
                   </p>
                 </div>
               </div>

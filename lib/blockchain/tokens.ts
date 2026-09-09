@@ -1,11 +1,11 @@
 export const SUPPORTED_TOKENS = {
   devnet: {
-    USDC: "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr",
+    USDC: "Gh9ZwEmdLJ8DscKNTkqPbNwLNNBjuSzaG9Vp2KGtKJr",
   },
 
   mainnet: {
     USDC: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-    USDT: "Es9vMFrzaCERmJfrF4H2JY3Y6sVvZzK5x2D8hFQ9wJf",
+    USDT: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
   },
 };
 

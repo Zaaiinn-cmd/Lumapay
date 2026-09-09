@@ -2,10 +2,21 @@ import crypto from "node:crypto";
 import { Connection, ParsedTransactionWithMeta } from "@solana/web3.js";
 
 const DEFAULT_MAX_SKEW_SECONDS = 300;
+const SUPPORTED_TOKEN_DECIMALS = 6;
 
 function timingSafeHexEqual(a: string, b: string) {
   if (!/^[0-9a-f]+$/i.test(a) || !/^[0-9a-f]+$/i.test(b) || a.length !== b.length) return false;
   return crypto.timingSafeEqual(Buffer.from(a, "hex"), Buffer.from(b, "hex"));
+}
+
+function rawUnitsToDecimalString(units: bigint, decimals: number) {
+  if (decimals === 0) return units.toString();
+
+  const raw = units.toString().padStart(decimals + 1, "0");
+  const whole = raw.slice(0, -decimals);
+  const fraction = raw.slice(-decimals).replace(/0+$/, "");
+
+  return fraction ? `${whole}.${fraction}` : whole;
 }
 
 export function verifyQuickNodeSignature(
@@ -76,7 +87,7 @@ export function extractSignatures(payload: unknown): string[] {
 
 type VerifiedTransfer = {
   walletId: string;
-  amount: number;
+  amount: string;
   token: string;
   signature: string;
   blockTime: Date | null;
@@ -119,17 +130,16 @@ export async function verifySolanaDeposit(
     const token = supportedMints.get(after.mint);
     if (delta <= 0n || !token) continue;
 
+    if (after.decimals !== SUPPORTED_TOKEN_DECIMALS) continue;
+
     const wallet = wallets.find(
       (candidate) => candidate.depositAddress && candidate.depositAddress === after.owner,
     );
     if (!wallet) continue;
 
-    const amount = Number(delta) / 10 ** after.decimals;
-    if (!Number.isFinite(amount) || amount <= 0) continue;
-
     return {
       walletId: wallet.id,
-      amount,
+      amount: rawUnitsToDecimalString(delta, after.decimals),
       token,
       signature,
       blockTime: transaction.blockTime ? new Date(transaction.blockTime * 1000) : null,
