@@ -16,6 +16,12 @@ jobs:
 
       - name: Run Sentinel Review
         uses: Stackgirl01/sentinel-review@v1.1
+        env:
+          # The @anthropic-ai/sdk client Sentinel Review uses defaults its
+          # baseURL to this env var if set (falling back to Anthropic's own
+          # api.anthropic.com otherwise), so this routes requests through
+          # AgentRouter without needing any code change to the action.
+          ANTHROPIC_BASE_URL: https://agentrouter.org/
         with:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           severity-threshold: medium
