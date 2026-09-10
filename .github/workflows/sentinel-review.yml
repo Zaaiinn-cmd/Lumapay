@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run Sentinel Review
-        uses: Stackgirl01/sentinel-review@v1.1
+        uses: Stackgirl01/sentinel-review@debug/agentrouter-response-shape
         env:
           # The @anthropic-ai/sdk client Sentinel Review uses defaults its
           # baseURL to this env var if set (falling back to Anthropic's own
