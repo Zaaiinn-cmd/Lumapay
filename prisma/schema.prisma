@@ -7,6 +7,78 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  clerkId   String   @unique
+  createdAt DateTime @default(now())
+  wallet    Wallet?
+}
+
+model Wallet {
+  id             String         @id @default(cuid())
+  userId         String         @unique
+  balance        Float          @default(0)
+  depositAddress String?        @unique
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  cards          Card[]
+  deposits       Deposit[]
+  subscriptions  Subscription[]
+  transactions   Transaction[]
+  user           User           @relation(fields: [userId], references: [id])
+}
+
+model Transaction {
+  id          String          @id @default(cuid())
+  walletId    String
+  amount      Float
+  fee         Float           @default(0)
+  description String
+  type        TransactionType @default(PAYMENT)
+  createdAt   DateTime        @default(now())
+  wallet      Wallet          @relation(fields: [walletId], references: [id])
+}
+
+model Subscription {
+  id        String             @id @default(cuid())
+  walletId  String
+  type      String
+  name      String
+  amount    Float
+  status    SubscriptionStatus @default(ACTIVE)
+  nextBill  DateTime
+  createdAt DateTime           @default(now())
+  wallet    Wallet             @relation(fields: [walletId], references: [id])
+}
+
+model Card {
+  id         String     @id @default(cuid())
+  walletId   String
+  holderName String
+  cardNumber String
+  expiry     String
+  cvv        String
+  brand      String
+  status     CardStatus @default(ACTIVE)
+  frozen     Boolean    @default(false)
+  createdAt  DateTime   @default(now())
+  wallet     Wallet     @relation(fields: [walletId], references: [id])
+}
+
+model Deposit {
+  id        String        @id @default(cuid())
+  walletId  String
+  token     String
+  amount    Float
+  signature String        @unique
+  status    DepositStatus @default(CONFIRMED)
+  blockTime DateTime?
+  createdAt DateTime      @default(now())
+  wallet    Wallet        @relation(fields: [walletId], references: [id])
+}
+
 enum DepositStatus {
   PENDING
   CONFIRMED
@@ -31,6 +103,7 @@ enum TransactionType {
   WITHDRAWAL
   REFUND
 }
+<<<<<<< HEAD
 
 model User {
   id        String   @id @default(cuid())
@@ -109,3 +182,5 @@ model Deposit {
 
   wallet Wallet @relation(fields: [walletId], references: [id])
 }
+=======
+>>>>>>> 286be7b (fix: finalize phase 3 deposit pipeline)
