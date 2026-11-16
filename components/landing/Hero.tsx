@@ -1,146 +1,57 @@
 import Link from "next/link";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 import FloatingCard from "./FloatingCard";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden">
-
-      {/* Background Glow */}
-
-      <div className="absolute inset-0 -z-10">
-
-        <div className="absolute left-1/2 top-20 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[140px]" />
-
-        <div className="absolute right-0 top-0 h-[350px] w-[350px] rounded-full bg-cyan-500/10 blur-[120px]" />
-
-        <div className="absolute bottom-0 left-0 h-[350px] w-[350px] rounded-full bg-purple-600/10 blur-[140px]" />
-
+    <section className="relative isolate overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-[42%] top-[-180px] h-[620px] w-[620px] -translate-x-1/2 rounded-full bg-[#5142e8]/25 blur-[150px]" />
+        <div className="absolute right-[-130px] top-[180px] h-[420px] w-[420px] rounded-full bg-[#a18aff]/10 blur-[130px]" />
+        <div className="absolute bottom-[-180px] left-[-100px] h-[360px] w-[360px] rounded-full bg-[#5142e8]/10 blur-[130px]" />
+        <div className="absolute inset-0 opacity-[0.035] [background-image:linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:72px_72px]" />
       </div>
 
-      {/* Grid */}
-
-      <div
-        className="
-          absolute
-          inset-0
-          -z-20
-          opacity-[0.05]
-          [background-image:linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)]
-          [background-size:60px_60px]
-        "
-      />
-
-      <div className="mx-auto flex max-w-7xl flex-col-reverse items-center gap-20 px-6 py-24 lg:flex-row lg:px-8">
-
-        {/* LEFT */}
-
-        <div className="flex-1">
-
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
-
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-
-            Powered by Solana
-
+      <div className="mx-auto grid max-w-7xl items-center gap-16 px-6 pb-28 pt-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:pb-36 lg:pt-28">
+        <div className="relative z-10">
+          <div className="glass-panel inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-xs font-medium tracking-wide text-[#d8d1ff] sm:text-sm">
+            <span className="h-2 w-2 rounded-full bg-[#9d8fff] shadow-[0_0_12px_#8b7cff]" />
+            <Sparkles size={14} className="text-[#bdb2ff]" />
+            Stablecoin-powered payments
           </div>
 
-          <h1 className="mt-8 text-5xl font-extrabold leading-tight tracking-tight md:text-7xl">
-
-            Stablecoin
-            <br />
-
-            payments
-
-            <span className="block bg-gradient-to-r from-white via-emerald-300 to-cyan-300 bg-clip-text text-transparent">
-
-              for the modern internet.
-
-            </span>
-
+          <h1 className="mt-8 max-w-3xl text-[clamp(3.25rem,7vw,6.4rem)] font-semibold leading-[.98] tracking-[-.065em]">
+            <span className="block text-white">Subscriptions,</span>
+            <span className="gradient-heading block pb-2">without borders.</span>
           </h1>
 
-          <p className="mt-8 max-w-xl text-lg leading-8 text-gray-400">
-
-            Pay for ChatGPT, Netflix, Spotify, Claude,
-            GitHub, Google and hundreds of online
-            services using USDC and USDT.
-
-            No banks.
-
-            No borders.
-
-            Just stablecoins.
-
+          <p className="mt-8 max-w-xl text-base leading-8 text-white/55 sm:text-lg">
+            Your stablecoins, one simple way to pay for the global internet. LumaPay brings your digital dollar wallet and online subscriptions closer together.
           </p>
 
-          {/* Buttons */}
-
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-
-            <Link
-              href="/sign-up"
-              className="
-                rounded-xl
-                bg-white
-                px-8
-                py-4
-                text-center
-                font-semibold
-                text-black
-                transition
-                hover:scale-105
-              "
-            >
-              Get Started
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <Link href="/sign-up" className="violet-glow inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#7668ff] to-[#5b4cf0] px-7 py-4 font-semibold text-white transition hover:-translate-y-0.5 hover:brightness-110">
+              Get started <ArrowUpRight size={18} />
             </Link>
-
-            <Link
-              href="/dashboard"
-              className="
-                rounded-xl
-                border
-                border-white/10
-                bg-white/5
-                px-8
-                py-4
-                text-center
-                transition
-                hover:bg-white/10
-              "
-            >
-              View Dashboard
+            <Link href="/dashboard" className="glass-panel inline-flex items-center justify-center rounded-full px-7 py-4 font-medium text-white/85 transition hover:border-[#988bff]/40 hover:bg-white/[0.08]">
+              Explore dashboard
             </Link>
-
           </div>
 
-          {/* Trust */}
-
-          <div className="mt-12 flex flex-wrap gap-6 text-sm text-gray-500">
-
-            <span>USDC</span>
-
-            <span>USDT</span>
-
-            <span>Virtual Cards</span>
-
-            <span>Subscriptions</span>
-
-            <span>Instant Deposits</span>
-
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs font-medium tracking-wide text-white/35">
+            <span>USDC</span><span className="h-1 w-1 rounded-full bg-[#7668ff]" />
+            <span>USDT</span><span className="h-1 w-1 rounded-full bg-[#7668ff]" />
+            <span>BUILT ON SOLANA</span>
           </div>
-
         </div>
 
-        {/* RIGHT */}
-
-        <div className="flex flex-1 justify-center">
-
-          <FloatingCard />
-
+        <div className="relative flex min-w-0 justify-center lg:justify-end">
+          <div className="pointer-events-none absolute inset-8 rounded-full bg-[#6557ff]/20 blur-[100px]" />
+          <div className="relative w-full max-w-[520px] animate-float">
+            <FloatingCard />
+          </div>
         </div>
-
       </div>
-
     </section>
   );
 }
