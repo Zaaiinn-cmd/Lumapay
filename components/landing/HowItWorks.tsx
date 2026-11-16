@@ -1,104 +1,35 @@
-import {
-  Wallet,
-  CreditCard,
-  Repeat,
-  BarChart3,
-} from "lucide-react";
+import { Wallet, Coins, CreditCard, ChartNoAxesCombined } from "lucide-react";
 
 const steps = [
-  {
-    number: "01",
-    title: "Fund your wallet",
-    description:
-      "Deposit USDC or USDT on Solana into your personal LumaPay wallet.",
-    icon: Wallet,
-  },
-  {
-    number: "02",
-    title: "Generate a virtual card",
-    description:
-      "Create a secure USD virtual card linked directly to your stablecoin balance.",
-    icon: CreditCard,
-  },
-  {
-    number: "03",
-    title: "Pay subscriptions",
-    description:
-      "Use your virtual card to pay supported online services from one place.",
-    icon: Repeat,
-  },
-  {
-    number: "04",
-    title: "Track everything",
-    description:
-      "Monitor transactions, subscriptions and spending analytics in real time.",
-    icon: BarChart3,
-  },
+  { number: "01", title: "Fund your wallet", description: "Start with supported USDC or USDT on Solana.", icon: Wallet },
+  { number: "02", title: "Keep your funds together", description: "See your stablecoin wallet activity in one place.", icon: Coins },
+  { number: "03", title: "Pay online", description: "Use the payment options available as LumaPay integrations roll out.", icon: CreditCard },
+  { number: "04", title: "Stay in control", description: "Follow your activity and understand where your money goes.", icon: ChartNoAxesCombined },
 ];
 
 export default function HowItWorks() {
   return (
-    <section className="mx-auto mt-32 max-w-7xl px-6 lg:px-8">
-
+    <section id="how" className="mx-auto mt-32 max-w-7xl px-6 lg:px-8">
       <div className="text-center">
-
-        <p className="text-sm uppercase tracking-[0.3em] text-emerald-400">
-          HOW IT WORKS
-        </p>
-
-        <h2 className="mt-4 text-4xl font-bold">
-          Four simple steps
-        </h2>
-
-        <p className="mx-auto mt-5 max-w-2xl text-lg text-gray-400">
-          From stablecoins to seamless global payments.
-        </p>
-
+        <p className="text-xs font-semibold uppercase tracking-[.28em] text-[#a99cff]">HOW IT WORKS</p>
+        <h2 className="mt-5 text-4xl font-semibold tracking-[-.045em] text-white sm:text-5xl">A simpler way to <span className="gradient-heading">move through payments.</span></h2>
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-white/50">The experience is designed to make stablecoin-powered online payments feel less complicated.</p>
       </div>
-
-      <div className="relative mt-20 grid gap-8 lg:grid-cols-4">
-
+      <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {steps.map((step) => {
           const Icon = step.icon;
-
           return (
-            <div
-              key={step.number}
-              className="
-                relative
-                rounded-3xl
-                border
-                border-white/10
-                bg-white/[0.03]
-                p-8
-                backdrop-blur-xl
-                transition-all
-                duration-300
-                hover:-translate-y-2
-                hover:border-emerald-500/40
-              "
-            >
-              <div className="absolute -top-5 left-8 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 font-bold text-black">
-                {step.number}
+            <div key={step.number} className="glass-panel relative rounded-[26px] p-7">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold tracking-[.2em] text-[#a99cff]">{step.number}</span>
+                <Icon size={22} className="text-[#bdb2ff]" />
               </div>
-
-              <div className="mt-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400">
-                <Icon size={32} />
-              </div>
-
-              <h3 className="mt-8 text-2xl font-semibold">
-                {step.title}
-              </h3>
-
-              <p className="mt-4 leading-7 text-gray-400">
-                {step.description}
-              </p>
+              <h3 className="mt-12 text-xl font-semibold text-white">{step.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-white/45">{step.description}</p>
             </div>
           );
         })}
-
       </div>
-
     </section>
   );
 }
