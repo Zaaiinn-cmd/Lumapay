@@ -1,76 +1,60 @@
 "use client";
 
-import { CreditCard, Wifi } from "lucide-react";
+import { ArrowUpRight, CircleDollarSign, Wallet } from "lucide-react";
 
 export default function FloatingCard() {
   return (
-    <div className="relative flex items-center justify-center">
+    <div className="relative mx-auto w-full max-w-[470px]">
+      <div className="absolute -inset-5 rounded-[38px] bg-[#6557ff]/15 blur-3xl" />
+      <div className="glass-panel relative overflow-hidden rounded-[32px] p-6 shadow-[0_35px_100px_rgba(31,22,99,.42)] sm:p-8">
+        <div className="absolute -right-16 -top-24 h-64 w-64 rounded-full bg-[#8274ff]/20 blur-[70px]" />
+        <div className="absolute -bottom-24 -left-20 h-56 w-56 rounded-full bg-[#b7aaff]/10 blur-[70px]" />
 
-      {/* Emerald Glow */}
-      <div className="absolute h-96 w-96 rounded-full bg-emerald-500/20 blur-[120px]" />
-
-      {/* Card */}
-      <div className="group relative h-[290px] w-[470px] overflow-hidden rounded-[34px] border border-white/10 bg-gradient-to-br from-[#232b27] via-[#1b2520] to-[#111] p-8 shadow-[0_25px_80px_rgba(16,185,129,0.18)] transition-all duration-500 hover:-translate-y-2 hover:rotate-1">
-
-        {/* Animated Shine */}
-        <div className="absolute -left-32 top-0 h-full w-24 rotate-12 bg-white/10 blur-2xl transition-all duration-1000 group-hover:left-[120%]" />
-
-        {/* Noise Overlay */}
-        <div className="absolute inset-0 opacity-[0.04] bg-[radial-gradient(circle_at_20%_20%,white_1px,transparent_1px)] bg-[size:12px_12px]" />
-
-        {/* Header */}
         <div className="relative flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight">
-              LumaPay
-            </h2>
-
-            <p className="text-sm text-gray-400">
-              Virtual USD Card
-            </p>
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#9185ff] to-[#5545ed] text-white">
+              <Wallet size={21} />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-white">LumaPay wallet</p>
+              <p className="mt-0.5 text-xs text-white/40">A clearer view of your digital dollars</p>
+            </div>
           </div>
-
-          <Wifi
-            className="text-white/80 rotate-90"
-            size={28}
-          />
+          <span className="rounded-full border border-[#a99cff]/20 bg-[#796aff]/10 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-[#c5bcff]">Preview</span>
         </div>
 
-        {/* Chip */}
-        <div className="relative mt-10 h-16 w-20 rounded-xl bg-gradient-to-br from-yellow-300 via-yellow-400 to-yellow-600 shadow-lg" />
-
-        {/* Card Number */}
-        <div className="relative mt-12 flex items-center justify-between font-mono text-3xl tracking-[6px]">
-          <span>4829</span>
-          <span>••••</span>
-          <span>••••</span>
-          <span>9182</span>
-        </div>
-
-        {/* Footer */}
-        <div className="relative mt-10 flex items-end justify-between">
-
-          <div>
-            <p className="text-xs uppercase tracking-widest text-gray-500">
-              Card Holder
-            </p>
-
-            <p className="mt-1 text-lg font-semibold">
-              LumaPay User
-            </p>
+        <div className="relative mt-9 rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.12] to-white/[0.035] p-6">
+          <div className="flex items-center justify-between text-sm text-white/50">
+            <span>Available balance</span>
+            <CircleDollarSign size={18} className="text-[#bdb2ff]" />
           </div>
-
-          <div className="flex items-center gap-2">
-            <CreditCard className="text-white/70" />
-
-            <span className="text-xl font-bold italic">
-              VISA
-            </span>
+          <p className="mt-3 text-4xl font-semibold tracking-tight text-white sm:text-5xl">••••••</p>
+          <p className="mt-2 text-xs text-white/35">Your balance appears here</p>
+          <div className="mt-8 flex items-center justify-between">
+            <div>
+              <p className="text-[10px] uppercase tracking-[.2em] text-white/35">Wallet assets</p>
+              <div className="mt-2 flex gap-2">
+                <span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs font-medium text-white/80">USDC</span>
+                <span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs font-medium text-white/80">USDT</span>
+              </div>
+            </div>
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6b5cff] text-white shadow-[0_0_24px_rgba(101,87,255,.45)]">
+              <ArrowUpRight size={19} />
+            </div>
           </div>
         </div>
 
+        <div className="relative mt-5 grid grid-cols-2 gap-3">
+          <div className="rounded-2xl border border-white/[0.08] bg-black/20 p-4">
+            <p className="text-xs text-white/40">Stablecoin wallet</p>
+            <p className="mt-2 text-sm font-semibold text-white">One place to manage</p>
+          </div>
+          <div className="rounded-2xl border border-white/[0.08] bg-black/20 p-4">
+            <p className="text-xs text-white/40">Global payments</p>
+            <p className="mt-2 text-sm font-semibold text-white">Made more accessible</p>
+          </div>
+        </div>
       </div>
-
     </div>
   );
 }
