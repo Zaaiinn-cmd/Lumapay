@@ -1,82 +1,21 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 
 export default function CTA() {
   return (
-    <section className="mx-auto mt-32 mb-32 max-w-7xl px-6 lg:px-8">
-      <div
-        className="
-          relative
-          overflow-hidden
-          rounded-[40px]
-          border
-          border-emerald-500/20
-          bg-gradient-to-br
-          from-emerald-500/15
-          via-black
-          to-emerald-500/10
-          px-8
-          py-20
-          text-center
-        "
-      >
-        {/* Glow */}
-        <div className="absolute -top-32 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-emerald-500/20 blur-3xl" />
-
-        <div className="relative z-10">
-          <p className="text-sm uppercase tracking-[0.35em] text-emerald-400">
-            START TODAY
-          </p>
-
-          <h2 className="mx-auto mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
-            Pay for global subscriptions with stablecoins.
-          </h2>
-
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-400">
-            Fund your wallet, generate a virtual USD card and manage your
-            recurring payments from one beautiful dashboard.
-          </p>
-
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link
-              href="/dashboard"
-              className="
-                inline-flex
-                items-center
-                gap-2
-                rounded-2xl
-                bg-emerald-500
-                px-8
-                py-4
-                font-semibold
-                text-black
-                transition-all
-                duration-300
-                hover:scale-105
-                hover:bg-emerald-400
-              "
-            >
-              Launch Dashboard
-              <ArrowRight size={18} />
-            </Link>
-
-            <Link
-              href="/dashboard/deposit"
-              className="
-                rounded-2xl
-                border
-                border-white/10
-                px-8
-                py-4
-                font-medium
-                transition
-                hover:border-white/30
-                hover:bg-white/5
-              "
-            >
-              Learn More
-            </Link>
-          </div>
+    <section className="mx-auto mb-32 mt-32 max-w-7xl px-6 lg:px-8">
+      <div className="glass-panel relative isolate overflow-hidden rounded-[36px] px-7 py-20 text-center sm:px-12">
+        <div className="absolute -left-20 -top-36 -z-10 h-80 w-80 rounded-full bg-[#6557ff]/25 blur-[100px]" />
+        <div className="absolute -bottom-40 -right-20 -z-10 h-80 w-80 rounded-full bg-[#a18aff]/15 blur-[100px]" />
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-[#a99cff]/25 bg-[#7566ff]/15 text-[#c8c0ff]">
+          <Sparkles size={22} />
+        </div>
+        <p className="mt-7 text-xs font-semibold uppercase tracking-[.3em] text-[#b5aaff]">YOUR NEXT PAYMENT EXPERIENCE</p>
+        <h2 className="mx-auto mt-5 max-w-3xl text-4xl font-semibold leading-tight tracking-[-.05em] text-white sm:text-6xl">Make the global internet feel <span className="gradient-heading">closer.</span></h2>
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/50">Explore a simpler approach to stablecoin-powered payments and subscription management.</p>
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link href="/sign-up" className="violet-glow inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#7668ff] to-[#5b4cf0] px-7 py-4 font-semibold text-white transition hover:-translate-y-0.5 hover:brightness-110">Get started <ArrowUpRight size={18} /></Link>
+          <Link href="/dashboard" className="glass-panel rounded-full px-7 py-4 font-medium text-white/85 transition hover:bg-white/[0.08]">Explore LumaPay</Link>
         </div>
       </div>
     </section>
