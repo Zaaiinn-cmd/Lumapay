@@ -1,85 +1,31 @@
-import {
-  CreditCard,
-  Repeat,
-  Wallet,
-  ShieldCheck,
-} from "lucide-react";
+import { CreditCard, Repeat, Wallet, ShieldCheck } from "lucide-react";
 
 const features = [
-  {
-    icon: CreditCard,
-    title: "Virtual USD Cards",
-    description:
-      "Create secure virtual cards funded by USDC and use them for global online payments.",
-  },
-  {
-    icon: Wallet,
-    title: "Instant Stablecoin Deposits",
-    description:
-      "Fund your wallet in seconds with Solana-based USDC and USDT.",
-  },
-  {
-    icon: Repeat,
-    title: "Subscription Automation",
-    description:
-      "Manage recurring payments for supported subscription services from one dashboard.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Secure by Design",
-    description:
-      "Authentication with Clerk, encrypted backend APIs and modern infrastructure built for reliability.",
-  },
+  { icon: Wallet, title: "A wallet for digital dollars", description: "Bring your USDC and USDT balances into one simple place, with a clear view of your funds." },
+  { icon: CreditCard, title: "A path to global payments", description: "LumaPay is designed to connect stablecoin funding with the online services you use every day." },
+  { icon: Repeat, title: "Subscription-focused", description: "Keep your recurring digital payments and subscription activity easier to understand and manage." },
+  { icon: ShieldCheck, title: "Built with care", description: "Authentication, transaction records and a security-minded architecture are part of the foundation." },
 ];
 
 export default function Features() {
   return (
-    <section className="mx-auto mt-28 max-w-7xl px-6 lg:px-8">
-      <div className="mb-14 text-center">
-        <h2 className="text-4xl font-bold">
-          Why choose LumaPay?
-        </h2>
-
-        <p className="mt-4 text-lg text-gray-400">
-          Everything you need to pay for global subscriptions using stablecoins.
-        </p>
+    <section id="features" className="mx-auto mt-32 max-w-7xl px-6 lg:px-8">
+      <div className="mb-14 max-w-2xl">
+        <p className="text-xs font-semibold uppercase tracking-[.28em] text-[#a99cff]">THE LUMAPAY DIFFERENCE</p>
+        <h2 className="mt-5 text-4xl font-semibold tracking-[-.045em] text-white sm:text-5xl">Your digital dollars, <span className="gradient-heading">working smarter.</span></h2>
+        <p className="mt-5 text-base leading-8 text-white/50">A more straightforward way to think about funding, managing and paying for the services that power your digital life.</p>
       </div>
-
-      <div className="grid gap-8 md:grid-cols-2">
-        {features.map((feature) => {
+      <div className="grid gap-5 md:grid-cols-2">
+        {features.map((feature, index) => {
           const Icon = feature.icon;
-
           return (
-            <div
-              key={feature.title}
-              className="
-                group
-                rounded-3xl
-                border
-                border-white/10
-                bg-gradient-to-br
-                from-white/[0.05]
-                to-white/[0.02]
-                p-8
-                backdrop-blur-xl
-                transition-all
-                duration-300
-                hover:-translate-y-2
-                hover:border-emerald-500/40
-                hover:shadow-[0_20px_60px_rgba(16,185,129,0.15)]
-              "
-            >
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400 transition duration-300 group-hover:scale-110">
-                <Icon size={32} />
+            <div key={feature.title} className="glass-panel group rounded-[28px] p-8 transition duration-300 hover:-translate-y-1 hover:border-[#9a8cff]/35 hover:bg-white/[0.07]">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#9a8cff]/20 bg-[#7566ff]/10 text-[#bdb2ff] transition group-hover:bg-[#7566ff]/20">
+                <Icon size={26} />
               </div>
-
-              <h3 className="mt-8 text-2xl font-semibold">
-                {feature.title}
-              </h3>
-
-              <p className="mt-4 leading-7 text-gray-400">
-                {feature.description}
-              </p>
+              <p className="mt-8 text-xs font-semibold tracking-[.18em] text-[#9f92ff]">0{index + 1}</p>
+              <h3 className="mt-3 text-2xl font-semibold tracking-tight text-white">{feature.title}</h3>
+              <p className="mt-4 max-w-lg leading-7 text-white/48">{feature.description}</p>
             </div>
           );
         })}
