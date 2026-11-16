@@ -1,86 +1,30 @@
-import {
-  DollarSign,
-  Globe,
-  ShieldCheck,
-  CreditCard,
-} from "lucide-react";
+import { Coins, Wallet, Globe2, Zap } from "lucide-react";
 
-const stats = [
-  {
-    icon: DollarSign,
-    value: "$0",
-    label: "Volume Processed",
-    description: "Ready for your first payment",
-  },
-  {
-    icon: CreditCard,
-    value: "0",
-    label: "Virtual Cards",
-    description: "Generated through LumaPay",
-  },
-  {
-    icon: Globe,
-    value: "180+",
-    label: "Supported Services",
-    description: "Global subscriptions",
-  },
-  {
-    icon: ShieldCheck,
-    value: "99.9%",
-    label: "Platform Uptime",
-    description: "Reliable infrastructure",
-  },
+const items = [
+  { icon: Coins, value: "USDC + USDT", label: "Stablecoin choice", description: "Support for both digital dollars" },
+  { icon: Wallet, value: "One wallet", label: "A simpler experience", description: "Bring your payment activity together" },
+  { icon: Globe2, value: "Global", label: "Internet-first", description: "Designed around online services" },
+  { icon: Zap, value: "Solana", label: "Built for speed", description: "Low-cost blockchain infrastructure" },
 ];
 
 export default function Stats() {
   return (
-    <section className="mx-auto mt-24 max-w-7xl px-6 lg:px-8">
-
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-
+    <section className="mx-auto -mt-8 max-w-7xl px-6 lg:px-8">
+      <div className="glass-panel grid overflow-hidden rounded-[28px] sm:grid-cols-2 lg:grid-cols-4">
+        {items.map((item, index) => {
+          const Icon = item.icon;
           return (
-            <div
-              key={stat.label}
-              className="
-                group
-                rounded-3xl
-                border
-                border-white/10
-                bg-white/[0.03]
-                p-7
-                backdrop-blur-xl
-                transition-all
-                duration-300
-                hover:-translate-y-2
-                hover:border-emerald-500/40
-                hover:bg-white/[0.05]
-              "
-            >
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400 transition group-hover:scale-110">
-                <Icon size={28} />
+            <div key={item.label} className={`p-6 sm:p-7 ${index > 0 ? "border-t border-white/[0.08] sm:border-l sm:border-t-0" : ""} ${index === 2 ? "lg:border-l" : ""}`}>
+              <div className="flex items-center gap-3 text-[#bdb2ff]">
+                <Icon size={19} />
+                <span className="text-[10px] font-semibold uppercase tracking-[.18em] text-white/40">{item.label}</span>
               </div>
-
-              <h3 className="mt-6 text-4xl font-bold">
-                {stat.value}
-              </h3>
-
-              <p className="mt-2 text-lg font-medium">
-                {stat.label}
-              </p>
-
-              <p className="mt-3 text-sm leading-6 text-gray-400">
-                {stat.description}
-              </p>
-
+              <h3 className="mt-5 text-2xl font-semibold tracking-tight text-white">{item.value}</h3>
+              <p className="mt-2 text-sm text-white/40">{item.description}</p>
             </div>
           );
         })}
-
       </div>
-
     </section>
   );
 }
